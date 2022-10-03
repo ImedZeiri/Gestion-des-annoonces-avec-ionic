@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">gestion-anon</string>
+    <string name="title_activity_main">gestion-anon</string>
+    <string name="package_name">com.anon.app</string>
+    <string name="custom_url_scheme">com.anon.app</string>
+    <string name="server_client_id">282931277541-omrhg6gs4tj0tc0e7ecp5trd0qlhkqo0.apps.googleusercontent.com</string>
+</resources>

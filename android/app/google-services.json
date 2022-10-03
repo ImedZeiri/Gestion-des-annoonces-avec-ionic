@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "282931277541",
+    "project_id": "gest-anon",
+    "storage_bucket": "gest-anon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282931277541:android:bc3a6b8b787ad04e852e0c",
+        "android_client_info": {
+          "package_name": "com.anon.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282931277541-9qbo2ft5i52p61bpt60afjtb09lovqj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anon.app",
+            "certificate_hash": "9af1f8fa1a969973d86b0e6b01836604149b9e71"
+          }
+        },
+        {
+          "client_id": "282931277541-omrhg6gs4tj0tc0e7ecp5trd0qlhkqo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh5tOHkLiPvy0dViEIMN9mcFzQBZkJlZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282931277541-omrhg6gs4tj0tc0e7ecp5trd0qlhkqo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
