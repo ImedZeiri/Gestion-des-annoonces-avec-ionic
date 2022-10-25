@@ -3,8 +3,7 @@ import { User } from "../models/user.model";
 import {
   ToastController,
   LoadingController,
-  NavController,
-  Platform
+  NavController
 } from "@ionic/angular";
 import {
   Auth,
@@ -12,37 +11,31 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
+
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.page.html",
-  styleUrls: ["./login.page.scss"]
+  selector: "app-register",
+  templateUrl: "./register.page.html",
+  styleUrls: ["./register.page.scss"]
 })
-export class LoginPage implements OnInit {
+export class RegisterPage implements OnInit {
   user = {} as User;
-  subscription: any;
 
   constructor(
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private afAuth: Auth,
-    private navCtrl: NavController,
-    private platform: Platform
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillLeave() {
-    this.subscription.unsubscribe();
-  }
-
-  ionViewDidEnter() {
-    this.subscription = this.platform.backButton.subscribe(() => {
-      navigator["app"].exitApp();
-    });
-  }
-  async login({ user : User }) {
+  async register(user: User) {
     try {
-      const user = await signInWithEmailAndPassword(this.afAuth, this.user.email, this.user.password);
+      const user = await createUserWithEmailAndPassword(
+        this.afAuth,
+        this.user.email,
+        this.user.password
+      );
       return user;
     } catch (e) {
       return null;
