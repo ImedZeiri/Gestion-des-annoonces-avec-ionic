@@ -19,5 +19,4 @@ Projet de classe
    **ionic serve**
    
    You can also start the webserverusing this command:
-   
-   **ionic serve -l **
+   **ionic serve -l**
