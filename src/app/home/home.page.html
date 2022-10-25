@@ -1,62 +1,36 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Products
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-icon color="danger" slot="icon-only" (click)="doLogout()" name="exit"></ion-icon>
-    </ion-buttons>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Home</ion-title>
   </ion-toolbar>
-  
 </ion-header>
 
 <ion-content>
-
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [routerLink]="['/addnew']">
+    <ion-fab-button [routerLink]="['/add-post']">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  
 
-  <ion-list lines="none" *ngIf="!isLoading">
-    <ion-item-sliding *ngFor="let p of productlist">
+  <ion-list lines="none">
+    <ion-item-sliding *ngFor="let post of posts">
       <ion-item class="no-padding">
         <ion-label>
-          <h2>{{p.producttitle}}</h2>
-          <p>{{p.productdesc}}</p>
+          <h2>{{ post.title }}</h2>
+          <p>{{ post.details }}</p>
         </ion-label>
-        <ion-badge slot="end" color="dark">${{p.productprice}}</ion-badge>
       </ion-item>
+
       <ion-item-options side="start">
-        <ion-item-option [routerLink]="['/modify/',p.docid]">
-          <ion-icon slot="icon-only" name="pencil"></ion-icon>
+        <ion-item-option [routerLink]="['/edit-post/', post.id]">
+          <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>
 
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteConfirmproduct(p.docid)">
+        <ion-item-option color="danger" (click)="deletePost(post.id)">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-
     </ion-item-sliding>
   </ion-list>
-
-  <ion-list lines="none" *ngIf="isLoading">
-    <ion-item-sliding *ngFor="let p of productlist">
-      <ion-item lines="none">
-          <ion-label>
-              <h3>
-                  <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-              </h3>
-              <p>
-                  <ion-skeleton-text animated style="width: 75%"></ion-skeleton-text>
-              </p>
-          </ion-label>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
-
-  
 </ion-content>

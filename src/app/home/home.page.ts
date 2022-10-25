@@ -1,58 +1,88 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { AlertController, LoadingController } from '@ionic/angular';
-import { AuthService } from '../services/auth.service';
-import { AvatarService } from '../services/avatar.service';
+import { Component } from "@angular/core";
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from '@angular/fire/auth';
+
+import { ToastController, LoadingController, Platform } from "@ionic/angular";
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"]
 })
 export class HomePage {
-  profile = null;
+  posts: any;
+  subscription: any;
 
   constructor(
-    private avatarService: AvatarService,
-    private authService: AuthService,
-    private router: Router,
-    private loadingController: LoadingController,
-    private alertController: AlertController
-  ) {
-    this.avatarService.getUserProfile().subscribe((data) => {
-      this.profile = data;
+    private toastCtrl: ToastController,
+    private firestore: AngularFirestore,
+    private loadingCtrl: LoadingController,
+    private platform: Platform
+  ) {}
+
+  ionViewDidEnter() {
+    this.subscription = this.platform.backButton.subscribe(() => {
+      navigator["app"].exitApp();
     });
   }
 
-  async logout() {
-    await this.authService.logout();
-    this.router.navigateByUrl('/', { replaceUrl: true });
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
   }
 
-  async changeImage() {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Camera, // Camera, Photos or Prompt!
+  async getPosts() {
+    console.log("get posts");
+    let loader = await this.loadingCtrl.create({
+      message: "Please wait..."
     });
+    loader.present();
 
-    if (image) {
-      const loading = await this.loadingController.create();
-      await loading.present();
+    try {
+      this.firestore
+        .collection("posts")
+        .snapshotChanges()
+        .subscribe(data => {
+          this.posts = data.map(e => {
+            return {
+              id: e.payload.doc.id.toString(),
+              title: e.payload.doc.data()["title"],
+              details: e.payload.doc.data()["details"]
+            };
+          });
 
-      const result = await this.avatarService.uploadImage(image);
-      loading.dismiss();
-
-      if (!result) {
-        const alert = await this.alertController.create({
-          header: 'Upload failed',
-          message: 'There was a problem uploading your avatar.',
-          buttons: ['OK'],
+          // dismiss loader
+          loader.dismiss();
         });
-        await alert.present();
-      }
+    } catch (e) {
+      this.showToast(e);
     }
+  }
+
+  async deletePost(id: string) {
+    console.log(id);
+    let loader = await this.loadingCtrl.create({
+      message: "Please wait..."
+    });
+    loader.present();
+    await this.deletePost('posts/' + id);
+    loader.dismiss();
+  }
+
+  ionViewWillEnter() {
+    this.getPosts();
+  }
+
+  showToast(message: string) {
+    this.toastCtrl
+      .create({
+        message: message,
+        duration: 3000
+      })
+      .then(toastData => toastData.present());
   }
 }
