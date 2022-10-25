@@ -17,6 +17,7 @@ Projet de classe
    
 5- To start the webserver, you can use the command:
    **ionic serve**
-   or 
+   
+   You can also start the webserverusing this command:
    
    **ionic serve -l **
